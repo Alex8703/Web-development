@@ -52,16 +52,4 @@ assign1/
   views/
 ```
 
-## Release tags
 
-Commit and push your release, then create and push its Git tag:
-
-```sh
-git add .
-git commit -m "Release v1.0"
-git push origin main
-git tag v1.0
-git push origin v1.0
-```
-
-For a later release, use the next version tag, such as `v1.1`.
