@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+<div class="form-page mx-auto">
+    <p class="eyebrow mb-2">EVENT MANAGEMENT</p>
+    <h1 class="h2 mb-1"><%= pageTitle %></h1>
+    <p class="text-secondary mb-4">Add the details so your community can plan ahead.</p>
+    <% if (errors.length) { %>
+    <div class="alert alert-danger" role="alert"><strong>Please review the following:</strong><ul class="mb-0 mt-2"><% errors.forEach((error) => { %><li><%= error %></li><% }) %></ul></div>
+    <% } %>
+    <form method="post" action="<%= isEditing ? `/event/${event._id}` : '/event' %>">
+        <div class="mb-3"><label class="form-label" for="title">Event title <span class="text-danger">*</span></label><input class="form-control" id="title" name="title" maxlength="200" required value="<%= event.title || '' %>"></div>
+        <div class="row g-3">
+            <div class="col-12 col-md-6"><label class="form-label" for="category">Category <span class="text-danger">*</span></label><select class="form-select" id="category" name="category" required><option value="">Choose a category</option><% categories.forEach((category) => { %><option value="<%= category %>" <%= event.category === category ? 'selected' : '' %>><%= category %></option><% }) %></select></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="dateTime">Date and time <span class="text-danger">*</span></label><input class="form-control" type="datetime-local" id="dateTime" name="dateTime" required value="<%= event.dateTime && !Number.isNaN(new Date(event.dateTime).getTime()) ? new Date(event.dateTime).toISOString().slice(0, 16) : '' %>"></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="capacity">Capacity <span class="text-danger">*</span></label><input class="form-control" type="number" id="capacity" name="capacity" min="1" step="1" required value="<%= event.capacity || '' %>"></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="status">Status</label><select class="form-select" id="status" name="status"><% statuses.forEach((status) => { %><option value="<%= status %>" <%= (event.status || 'Upcoming') === status ? 'selected' : '' %>><%= status %></option><% }) %></select></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="venue">Venue</label><select class="form-select" id="venue" name="venue"><option value="">No venue assigned</option><% venues.forEach((venue) => { %><option value="<%= venue._id %>" <%= String(event.venue && (event.venue._id || event.venue)) === String(venue._id) ? 'selected' : '' %>><%= venue.name %> — <%= venue.location %></option><% }) %></select></div>
+            <div class="col-12 col-md-6"><label class="form-label" for="speaker">Speaker / organizer</label><input class="form-control" id="speaker" name="speaker" value="<%= event.speaker || '' %>"></div>
+            <div class="col-12"><label class="form-label" for="bannerImage">Banner image URL or base64 data</label><input class="form-control" id="bannerImage" name="bannerImage" value="<%= event.bannerImage || '' %>" placeholder="https://example.com/image.jpg"><div class="form-text">Leave blank to use the faculty placeholder artwork.</div></div>
+            <div class="col-12"><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" name="description" rows="4"><%= event.description || '' %></textarea></div>
+        </div>
+        <div class="form-check my-3"><input class="form-check-input" type="checkbox" id="isHighlighted" name="isHighlighted" <%= event.isHighlighted ? 'checked' : '' %>><label class="form-check-label" for="isHighlighted">Feature this event on the homepage carousel</label></div>
+        <div class="d-flex flex-column flex-sm-row gap-2 mt-4"><button class="btn btn-primary" type="submit"><%= isEditing ? 'Save changes' : 'Create event' %></button><a class="btn btn-outline-secondary" href="<%= isEditing ? `/event/detail/${event._id}` : '/events' %>">Cancel</a></div>
+    </form>
+    <% if (isEditing) { %>
+    <hr class="my-4">
+    <form method="post" action="/event/delete/<%= event._id %>" data-confirm="Delete this event? This cannot be undone."><button class="btn btn-outline-danger" type="submit">Delete event</button></form>
+    <% } %>
+</div>
+<%- include('../partials/footer') %>

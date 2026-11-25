@@ -1,0 +1,11 @@
+<% if (totalPages > 1) { %>
+<nav class="mt-4" aria-label="Pagination">
+    <ul class="pagination justify-content-center flex-wrap">
+        <% for (let number = 1; number <= totalPages; number += 1) { %>
+        <li class="page-item <%= number === page ? 'active' : '' %>">
+            <a class="page-link" href="<%= listPath %>?page=<%= number %>" <%= number === page ? 'aria-current="page"' : '' %>><%= number %></a>
+        </li>
+        <% } %>
+    </ul>
+</nav>
+<% } %>

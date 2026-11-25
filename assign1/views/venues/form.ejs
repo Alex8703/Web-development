@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<div class="form-page mx-auto">
+    <p class="eyebrow mb-2">VENUE MANAGEMENT</p>
+    <h1 class="h2 mb-1"><%= pageTitle %></h1>
+    <p class="text-secondary mb-4">Describe the space and the facilities it offers.</p>
+    <% if (errors.length) { %><div class="alert alert-danger" role="alert"><strong>Please review the following:</strong><ul class="mb-0 mt-2"><% errors.forEach((error) => { %><li><%= error %></li><% }) %></ul></div><% } %>
+    <form method="post" action="<%= isEditing ? `/venue/${venue._id}` : '/venue' %>">
+        <div class="mb-3"><label class="form-label" for="name">Venue name <span class="text-danger">*</span></label><input class="form-control" id="name" name="name" maxlength="100" required value="<%= venue.name || '' %>"></div>
+        <div class="row g-3">
+            <div class="col-12 col-md-8"><label class="form-label" for="location">Location <span class="text-danger">*</span></label><input class="form-control" id="location" name="location" required placeholder="Building A, Room 101" value="<%= venue.location || '' %>"></div>
+            <div class="col-12 col-md-4"><label class="form-label" for="capacity">Capacity <span class="text-danger">*</span></label><input class="form-control" type="number" id="capacity" name="capacity" min="1" step="1" required value="<%= venue.capacity || '' %>"></div>
+            <div class="col-12"><fieldset><legend class="form-label fs-6">Facilities</legend><div class="row row-cols-1 row-cols-sm-2 g-2"><% facilities.forEach((facility, index) => { %><div class="col"><div class="form-check"><input class="form-check-input" type="checkbox" id="facility-<%= index %>" name="facilities" value="<%= facility %>" <%= (venue.facilities || []).includes(facility) ? 'checked' : '' %>><label class="form-check-label" for="facility-<%= index %>"><%= facility %></label></div></div><% }) %></div></fieldset></div>
+            <div class="col-12"><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" name="description" rows="4"><%= venue.description || '' %></textarea></div>
+        </div>
+        <div class="d-flex flex-column flex-sm-row gap-2 mt-4"><button class="btn btn-primary" type="submit"><%= isEditing ? 'Save changes' : 'Create venue' %></button><a class="btn btn-outline-secondary" href="/venues">Cancel</a></div>
+    </form>
+    <% if (isEditing) { %><hr class="my-4"><form method="post" action="/venue/delete/<%= venue._id %>" data-confirm="Delete this venue? Events assigned to it will become unassigned."><button class="btn btn-outline-danger" type="submit">Delete venue</button></form><% } %>
+</div>
+<%- include('../partials/footer') %>

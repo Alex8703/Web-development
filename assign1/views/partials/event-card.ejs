@@ -1,0 +1,14 @@
+<article class="card event-card h-100">
+    <a class="event-image-link" href="/event/detail/<%= event._id %>" aria-label="View <%= event.title %>">
+        <img class="card-img-top event-image" src="<%= event.bannerImage || 'https://placehold.co/900x560/17324d/ffffff?text=Faculty+Science' %>" alt="<%= event.title %>" loading="lazy">
+    </a>
+    <div class="card-body d-flex flex-column">
+        <div class="d-flex justify-content-between align-items-center gap-2 mb-2">
+            <span class="badge text-bg-light"><%= event.category %></span>
+            <span class="event-status"><%= event.status %></span>
+        </div>
+        <h3 class="h5 card-title"><a class="stretched-link text-decoration-none text-dark" href="/event/detail/<%= event._id %>"><%= event.title %></a></h3>
+        <p class="small text-secondary mb-2"><%= new Date(event.dateTime).toLocaleString() %></p>
+        <% if (event.venue) { %><p class="small text-secondary mt-auto mb-0"><%= event.venue.name %> · <%= event.venue.location %></p><% } %>
+    </div>
+</article>

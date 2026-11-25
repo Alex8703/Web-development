@@ -1,0 +1,18 @@
+<%- include('../partials/header') %>
+<article class="detail-page mx-auto">
+    <img class="detail-image rounded-4" src="<%= event.bannerImage || 'https://placehold.co/1400x650/17324d/ffffff?text=Faculty+Science' %>" alt="<%= event.title %>">
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-start gap-3 mt-4">
+        <div><span class="badge text-bg-light mb-2"><%= event.category %></span><h1 class="display-6 fw-bold"><%= event.title %></h1></div>
+        <a class="btn btn-outline-primary flex-shrink-0" href="/event/edit/<%= event._id %>">Edit event</a>
+    </div>
+    <p class="lead text-secondary"><%= event.description || 'More details about this event will be announced soon.' %></p>
+    <div class="row g-3 my-3">
+        <div class="col-12 col-md-6"><div class="detail-fact"><span class="fact-label">Date &amp; time</span><strong><%= new Date(event.dateTime).toLocaleString() %></strong></div></div>
+        <div class="col-12 col-md-6"><div class="detail-fact"><span class="fact-label">Status</span><strong><%= event.status %></strong></div></div>
+        <div class="col-12 col-md-6"><div class="detail-fact"><span class="fact-label">Capacity</span><strong><%= event.capacity %> attendees</strong></div></div>
+        <div class="col-12 col-md-6"><div class="detail-fact"><span class="fact-label">Speaker / organizer</span><strong><%= event.speaker || 'To be announced' %></strong></div></div>
+        <div class="col-12"><div class="detail-fact"><span class="fact-label">Venue</span><% if (event.venue) { %><strong><%= event.venue.name %></strong><span><%= event.venue.location %> · Capacity <%= event.venue.capacity %></span><% if (event.venue.facilities.length) { %><span>Facilities: <%= event.venue.facilities.join(', ') %></span><% } %><% } else { %><strong>Venue to be announced</strong><% } %></div></div>
+    </div>
+    <a href="/events" class="text-decoration-none">← Back to events</a>
+</article>
+<%- include('../partials/footer') %>

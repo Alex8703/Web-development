@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<div class="page-heading mb-4">
+    <div><p class="eyebrow mb-2">THE CALENDAR</p><h1 class="h2 mb-1">Science Faculty Events</h1><p class="text-secondary mb-0">Talks, workshops and more from across the faculty.</p></div>
+    <a class="btn btn-primary" href="/event/add">Add an event</a>
+</div>
+<% if (events.length) { %>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-lg-4">
+    <% events.forEach((event) => { %><div class="col"><%- include('../partials/event-card', { event }) %></div><% }) %>
+</div>
+<%- include('../partials/pagination', { page, totalPages, listPath: '/events' }) %>
+<% } else { %>
+<div class="empty-state text-center py-5"><h2 class="h4">No events yet</h2><p>Be the first to add one to the calendar.</p><a class="btn btn-primary" href="/event/add">Create an event</a></div>
+<% } %>
+<%- include('../partials/footer') %>

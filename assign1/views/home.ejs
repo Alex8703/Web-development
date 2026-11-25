@@ -1,0 +1,67 @@
+<%- include('partials/header') %>
+<section class="hero-intro mb-4 mb-lg-5">
+    <p class="eyebrow mb-2">SCIENCE FACULTY · CAMPUS LIFE</p>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-3">
+        <div>
+            <h1 class="display-5 fw-bold mb-2">Ideas happen here.</h1>
+            <p class="lead text-secondary mb-0">Find your next talk, workshop or campus gathering.</p>
+        </div>
+        <a class="btn btn-primary px-4" href="/events">Explore all events <span aria-hidden="true">→</span></a>
+    </div>
+</section>
+
+<% if (highlighted.length) { %>
+<section class="mb-5" aria-label="Featured events">
+    <div id="featuredEvents" class="carousel slide featured-carousel" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <% highlighted.forEach((event, index) => { %>
+            <button type="button" data-bs-target="#featuredEvents" data-bs-slide-to="<%= index %>" class="<%= index === 0 ? 'active' : '' %>" aria-label="Slide <%= index + 1 %>" <%= index === 0 ? 'aria-current="true"' : '' %>></button>
+            <% }) %>
+        </div>
+        <div class="carousel-inner rounded-4">
+            <% highlighted.forEach((event, index) => { %>
+            <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                <img class="featured-image" src="<%= event.bannerImage || 'https://placehold.co/1500x620/17324d/ffffff?text=Featured+Science+Event' %>" alt="<%= event.title %>">
+                <div class="featured-overlay"></div>
+                <div class="carousel-caption text-start">
+                    <span class="badge text-bg-warning mb-2">Featured · <%= event.category %></span>
+                    <h2 class="display-6 fw-bold"><%= event.title %></h2>
+                    <p class="d-none d-sm-block"><%= event.description || 'Join the Science Faculty community for this upcoming event.' %></p>
+                    <a class="btn btn-light" href="/event/detail/<%= event._id %>">Discover event</a>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+        <% if (highlighted.length > 1) { %>
+        <button class="carousel-control-prev" type="button" data-bs-target="#featuredEvents" data-bs-slide="prev" aria-label="Previous featured event"><span class="carousel-control-prev-icon"></span></button>
+        <button class="carousel-control-next" type="button" data-bs-target="#featuredEvents" data-bs-slide="next" aria-label="Next featured event"><span class="carousel-control-next-icon"></span></button>
+        <% } %>
+    </div>
+</section>
+<% } else { %>
+<section class="feature-empty mb-5 rounded-4 p-4 p-md-5">
+    <p class="eyebrow">WHAT'S ON</p>
+    <h2 class="h3">Make room for a new idea.</h2>
+    <p class="mb-3">Featured events will appear here. Browse the calendar to see what’s coming up.</p>
+    <a href="/events" class="btn btn-light">Browse events</a>
+</section>
+<% } %>
+
+<% [
+    { title: 'Most Recent Events', subtitle: 'Newly added to the faculty calendar.', events: recentEvents },
+    { title: 'Trending Events', subtitle: 'Upcoming events with the largest capacity.', events: trendingEvents },
+    { title: 'Coming Up', subtitle: 'The next events on the calendar.', events: upcomingEvents }
+].forEach((section) => { %>
+<section class="mb-5">
+    <div class="section-heading mb-3">
+        <div><h2 class="h3 mb-1"><%= section.title %></h2><p class="text-secondary mb-0"><%= section.subtitle %></p></div>
+        <a href="/events" class="text-decoration-none fw-semibold">All events <span aria-hidden="true">→</span></a>
+    </div>
+    <% if (section.events.length) { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 g-lg-4">
+        <% section.events.forEach((event) => { %><div class="col"><%- include('partials/event-card', { event }) %></div><% }) %>
+    </div>
+    <% } else { %><p class="empty-state">No events to show yet. Add one to get started.</p><% } %>
+</section>
+<% }) %>
+<%- include('partials/footer') %>
