@@ -13,7 +13,7 @@ A responsive event and venue management app built with Express, EJS, Bootstrap 5
 npm install
 ```
 
-Set `MONGODB_URI` in a local `.env` file in the project root (this file is ignored by Git):
+Set `MONGODB_URI` in a local `.env` file in the project root:
 
 ```env
 MONGODB_URI=mongodb://127.0.0.1:27017/science-faculty-events
